@@ -47,33 +47,33 @@ Matiks follows a layered, decoupled universal application architecture ensuring 
 
 ```mermaid
 graph TD
-    subgraph Presentation_Layer [1. Presentation & Interaction Layer]
-        AppRoutes[Expo Router File-Based Routing 'app/']
-        DesignSys[Matiks Atomic Design Library 'designLibrary/']
-        RiveEng[Rive Interactive Vector Animation Runtime]
-        SkiaEng[Shopify React Native Skia 2D Canvas Engine]
-        ReanimatedEng[React Native Reanimated 4 & Gesture Handler]
+    subgraph Presentation_Layer ["1. Presentation & Interaction Layer"]
+        AppRoutes["Expo Router File-Based Routing (app/)"]
+        DesignSys["Matiks Atomic Design Library (designLibrary/)"]
+        RiveEng["Rive Interactive Vector Animation Runtime"]
+        SkiaEng["Shopify React Native Skia 2D Canvas Engine"]
+        ReanimatedEng["React Native Reanimated 4 & Gesture Handler"]
     end
 
-    subgraph State_Coordination [2. State Management & Scene Coordination]
-        ZustandStores[Zustand 5.0 Stores + Immer 'src/store/']
-        LegendReactive[Legend-State Observables 'src/modules/gameV3/']
-        SceneManagerPkg['@matiks/scene-manager' Priority Overlay Queue]
-        EventSessionPkg['@matiks/event-session' Batching & Flusher]
+    subgraph State_Coordination ["2. State Management & Scene Coordination"]
+        ZustandStores["Zustand 5.0 Stores + Immer (src/store/)"]
+        LegendReactive["Legend-State Observables (src/modules/gameV3/)"]
+        SceneManagerPkg["@matiks/scene-manager Priority Overlay Queue"]
+        EventSessionPkg["@matiks/event-session Batching & Flusher"]
     end
 
-    subgraph Domain_Security [3. Domain Logic, Data & Security]
-        ApolloGql[Apollo Client 3.13 GraphQL & Normalization Cache]
-        WSSockets[WebSocket Real-Time Multiplexing Channels]
-        NitroCrypto[Nitro Modules C++ AES Decryption 'packages/question-crypto-native']
-        WasmCrypto[Rust WebAssembly AES Decryption 'packages/question-crypto-web']
+    subgraph Domain_Security ["3. Domain Logic, Data & Security"]
+        ApolloGql["Apollo Client 3.13 GraphQL & Normalization Cache"]
+        WSSockets["WebSocket Real-Time Multiplexing Channels"]
+        NitroCrypto["Nitro Modules C++ AES Decryption (packages/question-crypto-native)"]
+        WasmCrypto["Rust WebAssembly AES Decryption (packages/question-crypto-web)"]
     end
 
-    subgraph Platform_Infrastructure [4. Platform, Native & Edge Infrastructure]
-        BareNative[Bare iOS Pods & Android Gradle Config]
-        HotUpdaterCDN[HotUpdater Over-the-Air Engine on Cloudflare D1 & R2]
-        AnalyticsEngine[Unified Analytics: Amplitude / Clarity / Firebase / Mixpanel]
-        FastCache[Encrypted MMKV Storage 'native' vs LocalStorage 'web']
+    subgraph Platform_Infrastructure ["4. Platform, Native & Edge Infrastructure"]
+        BareNative["Bare iOS Pods & Android Gradle Config"]
+        HotUpdaterCDN["HotUpdater Over-the-Air Engine on Cloudflare D1 & R2"]
+        AnalyticsEngine["Unified Analytics: Amplitude / Clarity / Firebase / Mixpanel"]
+        FastCache["Encrypted MMKV Storage (native) vs LocalStorage (web)"]
     end
 
     AppRoutes --> State_Coordination
@@ -283,18 +283,18 @@ Replaces sequential waterfall initialization with an optimized parallel startup 
 
 ```mermaid
 flowchart TD
-    Start([App Launch]) --> Parallel{Parallel Initialization}
-    Parallel -->|Task 1| Fonts[Load Custom Fonts: Montserrat, Outfit, Icons]
-    Parallel -->|Task 2| JWT[Validate JWT Token & Retrieve Cached User from MMKV]
-    Parallel -->|Task 3| AppCheck[Initialize Firebase App Check]
+    Start(["App Launch"]) --> Parallel{"Parallel Initialization"}
+    Parallel -->|Task 1| Fonts["Load Custom Fonts: Montserrat, Outfit, Icons"]
+    Parallel -->|Task 2| JWT["Validate JWT Token and Retrieve Cached User from MMKV"]
+    Parallel -->|Task 3| AppCheck["Initialize Firebase App Check"]
     
-    Fonts --> Sync[Barrier Synchronization]
+    Fonts --> Sync["Barrier Synchronization"]
     JWT --> Sync
     AppCheck --> Sync
     
-    Sync --> Apollo[Assemble Apollo Client with Dynamic Auth & Device Links]
-    Apollo --> TimeSync[Sync Client-Server Clock Offset]
-    TimeSync --> HideSplash[Dismiss Splash Screen & Reveal Authenticated Shell]
+    Sync --> Apollo["Assemble Apollo Client with Dynamic Auth and Device Links"]
+    Apollo --> TimeSync["Sync Client-Server Clock Offset"]
+    TimeSync --> HideSplash["Dismiss Splash Screen and Reveal Authenticated Shell"]
 ```
 
 ### 7.2. Deferred Analytics Dispatcher (`DeferredAnalyticsInitializer.ts`)
@@ -427,13 +427,13 @@ Located in [`.maestro/`](file:///Users/pramiths/Documents/Matiks/matiks-client/.
 
 ```mermaid
 flowchart LR
-    PRDiff[PR Changed Files Diff] --> PathMap[Evaluate .maestro/path-map.yaml]
-    PathMap --> Decision{Select Flows}
-    Decision -->|Matches No-Run| SkipRun[Skip Native E2E Run]
-    Decision -->|Matches Full-Suite| AllFlows[Run All Non-Skipped Flows]
-    Decision -->|Matches Scoped Key| ScopedFlows[Run Selected Feature Flows + Smoke Flows]
+    PRDiff["PR Changed Files Diff"] --> PathMap["Evaluate .maestro/path-map.yaml"]
+    PathMap --> Decision{"Select Flows"}
+    Decision -->|Matches No-Run| SkipRun["Skip Native E2E Run"]
+    Decision -->|Matches Full-Suite| AllFlows["Run All Non-Skipped Flows"]
+    Decision -->|Matches Scoped Key| ScopedFlows["Run Selected Feature Flows + Smoke Flows"]
     
-    ScopedFlows --> BrowserStack[Bitrise -> BrowserStack Cloud Device Farm]
+    ScopedFlows --> BrowserStack["Bitrise to BrowserStack Cloud Device Farm"]
     AllFlows --> BrowserStack
 ```
 
